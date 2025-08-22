@@ -8,28 +8,28 @@
     <div class="row g-4">
         @foreach($products as $product)
         <div class="col-6 col-md-4 col-lg-3">
-            <div class="product-card position-relative rounded-4 overflow-hidden shadow-lg">
-                
+            <div class="product-card position-relative rounded-4 overflow-hidden shadow-lg h-100 d-flex flex-column">
+
                 <!-- Product Image -->
-                <div class="position-relative overflow-hidden">
-                    <img src="{{ asset('storage/'.$product->image) }}" alt="{{ $product->name }}" class="w-100 product-img">
+                <div class="position-relative overflow-hidden product-img-wrapper">
+                    <img src="{{ asset('storage/'.$product->image) }}" alt="{{ $product->name }}"
+                        class="w-100 product-img">
 
                     <!-- Hover Overlay -->
                     <div class="product-overlay d-flex flex-column align-items-center justify-content-center">
                         <a href="{{ url('/products/'.$product->id) }}" class="btn btn-white btn-sm mb-2">
                             <i class="fas fa-eye"></i> View
                         </a>
-                        <!-- <a href="#" class="btn btn-white btn-sm">
-                            <i class="fas fa-shopping-cart"></i> Add to Cart
-                        </a> -->
                     </div>
                 </div>
 
                 <!-- Card Body -->
-                <div class="card-body text-center py-3">
-                    <h5 class="fw-semibold mb-1">{{ $product->name }}</h5>
-                    <span class="badge bg-gradient-price">₹{{ $product->price }}</span>
-                </div>
+               <!-- Card Body -->
+<div class="card-body text-center py-3 flex-grow-1 d-flex flex-column justify-content-between">
+    <h5 class="fw-semibold mb-2 product-title">{{ $product->name }}</h5>
+    <span class="product-price">₹{{ number_format($product->price, 2) }}</span>
+</div>
+
             </div>
         </div>
         @endforeach
@@ -45,69 +45,102 @@
 /* Product card styling */
 .product-card {
     background: #fff;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.product-card:hover {
-    transform: translateY(-7px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* Product image */
+.product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+}
+
+/* Image wrapper */
+.product-img-wrapper {
+    height: 260px; /* taller ratio for product visibility */
+    overflow: hidden;
+    border-bottom: 1px solid #eee;
+    background: #fafafa;
+}
+
 .product-img {
     width: 100%;
-    height: 220px;
+    height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
 }
+
 .product-card:hover .product-img {
-    transform: scale(1.1);
+    transform: scale(1.08);
 }
 
 /* Hover overlay */
 .product-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.45);
     opacity: 0;
     transition: opacity 0.3s ease;
-    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
 .product-card:hover .product-overlay {
     opacity: 1;
 }
 
-/* Overlay buttons */
+/* Overlay button */
 .product-overlay .btn-white {
     background-color: #fff;
     color: #333;
     font-weight: 600;
     border-radius: 50px;
-    padding: 0.35rem 0.9rem;
-    transition: transform 0.3s ease, background 0.3s ease;
+    padding: 0.45rem 1rem;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
+
 .product-overlay .btn-white:hover {
     background: linear-gradient(135deg, #6a11cb, #2575fc);
     color: #fff;
-    transform: scale(1.05);
+    transform: translateY(-2px);
 }
 
-/* Price badge */
-.badge.bg-gradient-price {
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
-    color: #fff;
-    font-size: 0.9rem;
-    padding: 0.35rem 0.7rem;
-    border-radius: 50px;
-    display: inline-block;
+/* Card Body */
+.card-body {
+    padding: 1rem;
 }
 
-/* Card body text */
-.card-body h5 {
+/* Title */
+.product-title {
     font-size: 1rem;
-    margin-bottom: 0.5rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: #333;
+    line-height: 1.4;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* max 2 lines */
+    -webkit-box-orient: vertical;
 }
+
+/* Price badge (compact pill) */
+.product-price {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2575fc;
+}
+
+
 </style>
 
 <!-- Font Awesome for icons -->
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<!-- Font Awesome Free CDN -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 @endpush

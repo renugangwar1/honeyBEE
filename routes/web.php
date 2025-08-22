@@ -15,7 +15,8 @@ use App\Http\Controllers\ProductController as PublicProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CheckoutController;
-
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\OrderController;
 /*
 |--------------------------------------------------------------------------
 | Public
@@ -57,7 +58,9 @@ Route::post('/checkout/buy-now', [CheckoutController::class, 'buyNow'])->name('c
 
 
 Route::get('/profile', fn () => view('user.profile'))->middleware('auth');
-
+Route::get('/profile', [ProfileController::class, 'index'])
+    ->name('profile')
+    ->middleware('auth');
 /*
 |--------------------------------------------------------------------------
 | Auth
@@ -88,4 +91,5 @@ Route::middleware(['auth','role:admin'])->prefix('admin')->name('admin.')->group
     Route::resource('subcategories', SubcategoryController::class);
     Route::resource('categories', AdminCategoryController::class);
     Route::resource('banners', BannerController::class);
+     Route::resource('orders', OrderController::class)->only(['index', 'show', 'update']);
 });

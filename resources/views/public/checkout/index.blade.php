@@ -132,7 +132,8 @@
             </div>
             <div class="d-flex justify-content-between">
                 <button class="btn btn-outline-secondary prev-step">Back</button>
-                <button class="btn btn-gradient next-step">Place Order</button>
+               <button type="button" class="btn btn-gradient" id="place-order">Place Order</button>
+
             </div>
         </div>
 
@@ -207,5 +208,53 @@ document.addEventListener('DOMContentLoaded', function(){
 
     showStep(0); // start at Cart
 });
+
+document.addEventListener('DOMContentLoaded', function(){
+    const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+   document.getElementById('place-order').addEventListener('click', async function(){
+    const formData = {
+        name: document.querySelector('[name="name"]').value,
+        email: document.querySelector('[name="email"]').value,
+        phone: document.querySelector('[name="phone"]').value,
+        alt_phone: document.querySelector('[name="alt_phone"]').value,
+        address_line1: document.querySelector('[name="address_line1"]').value,
+        address_line2: document.querySelector('[name="address_line2"]').value,
+        city: document.querySelector('[name="city"]').value,
+        state: document.querySelector('[name="state"]').value,
+        postal_code: document.querySelector('[name="postal_code"]').value,
+        country: document.querySelector('[name="country"]').value,
+        order_notes: document.querySelector('[name="order_notes"]').value,
+        payment_method: document.querySelector('[name="payment_method"]:checked').value
+    };
+
+    try {
+        const res = await fetch("{{ route('checkout.store') }}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrf
+            },
+            body: JSON.stringify(formData)
+        });
+        const data = await res.json();
+
+        if (data.status === 'success') {
+            // ✅ Show final step without reloading
+            document.querySelectorAll('.step-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('step-placed').classList.add('active');
+
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.step')[3].classList.add('active');
+        } else {
+            alert(data.message || "Something went wrong");
+        }
+    } catch (err) {
+        alert(err.message);
+    }
+});
+
+});
+
 </script>
 @endpush

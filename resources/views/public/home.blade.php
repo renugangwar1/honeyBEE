@@ -4,7 +4,7 @@
 
 @if($banners->count())
 <div id="bannerCarousel" class="carousel slide mb-5" data-bs-ride="carousel" data-bs-interval="4000">
-  <div class="carousel-inner rounded-5 shadow-lg overflow-hidden">
+  <div class="carousel-inner rounded-4 shadow-lg overflow-hidden">
     @foreach($banners as $index => $banner)
       <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
         <a href="{{ $banner->link ?? '#' }}" class="d-block overflow-hidden">
@@ -14,14 +14,17 @@
         </a>
         @if($banner->title)
         <div class="carousel-caption d-none d-md-block">
-          <div class="caption-bg p-4 rounded-4">
+          <div class="caption-bg p-3 px-4 rounded-3 shadow-lg">
             <h2 class="fw-bold text-white animate-caption">{{ $banner->title }}</h2>
           </div>
+          <!-- <h2 class="fw-bold animate-caption" style="color: gold;">{{ $banner->title }}</h2> -->
+
         </div>
         @endif
       </div>
     @endforeach
   </div>
+
   <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
     <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
   </button>
@@ -34,51 +37,44 @@
 @include('public.partials.featured-categories', ['categories' => $categories])
 @include('public.partials.latest-products', ['products' => $products])
 @include('public.partials.offer-banner')
-
 @endsection
 
 @push('styles')
 <style>
-/* Smooth image zoom effect */
+/* ✅ Make banner responsive */
 .carousel-image {
-    height: 500px;
+    width: 100%;
+    height: 40vh; /* 60% of viewport height */
+    min-height: 320px;
+    max-height: 600px;
     object-fit: cover;
-    transition: transform 0.6s ease;
+    transition: transform 0.8s ease;
 }
 .carousel-item.active .carousel-image {
-    transform: scale(1.05);
+    transform: scale(1.04); /* gentle zoom effect */
 }
 
-/* Caption background with gradient */
+/* ✅ Caption improvements */
 .caption-bg {
-    background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(0,0,0,0.3));
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(6px);
 }
-
-/* Caption animation */
 .animate-caption {
-    animation: slideUp 0.8s ease forwards;
+    animation: fadeInUp 1s ease forwards;
     opacity: 0;
 }
-
-@keyframes slideUp {
-    0% {
-        transform: translateY(20px);
-        opacity: 0;
-    }
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
+@keyframes fadeInUp {
+    from { transform: translateY(25px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
 }
 
-/* Carousel controls customization */
+/* ✅ Carousel controls */
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-    background-size: 50%, 50%;
-    filter: brightness(1.2);
+    background-size: 60%;
+    filter: invert(1) brightness(1.2);
     transition: transform 0.3s ease;
 }
-
 .carousel-control-prev:hover .carousel-control-prev-icon,
 .carousel-control-next:hover .carousel-control-next-icon {
     transform: scale(1.2);

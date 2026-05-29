@@ -22,9 +22,12 @@ use App\Http\Controllers\Admin\OrderController;
 | Public
 |--------------------------------------------------------------------------
 */
+
 Route::get('/health', function () {
     return 'OK';
 });
+
+Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/page/{slug}', [HomeController::class, 'page'])->name('page.show');
 
 Route::get('/products', [HomeController::class, 'products'])->name('products');

@@ -49,7 +49,7 @@
             <option value="shipped" {{ $order->status == 'shipped' ? 'selected' : '' }}>shipped</option>
         <option value="completed" {{ $order->status == 'completed' ? 'selected' : '' }}>Completed</option>
         <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-            <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+            <option value="reached" {{ $order->status == 'reached' ? 'selected' : '' }}>reached</option>
             
     </select>
     <button type="submit" class="btn btn-success btn-sm">Update</button>

@@ -17,62 +17,96 @@
 </div>
 
 <body>
-
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg shadow-sm sticky-top"
+     style="background: linear-gradient(90deg, #f9a8d4, #fbcfe8, #e9d5ff); border-bottom: 2px solid #f472b6;">
   <div class="container">
-    <a class="navbar-brand fw-bold text-danger" href="{{ url('/') }}">💄 MyMakeup</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <!-- Logo -->
+<a class="navbar-brand fw-bold fs-3 d-flex align-items-center text-dark" href="{{ url('/') }}">
+    <img src="{{ asset('build/assets/lips-svgrepo-com.svg') }}" 
+         alt="MyMakeup Logo" width="42" height="42" class="me-2">
+    <span class="fw-bold" style="font-size:1.3rem; color:#4b5563;">YOUR'S</span>
+</a>
+
+
+
+    <!-- Toggler -->
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
 
+    <!-- Links -->
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        {{-- Common Links --}}
-        <li class="nav-item"><a class="nav-link fw-semibold" href="{{ url('/') }}"><i class="fa-solid fa-house"></i> Home</a></li>
-        <li class="nav-item"><a class="nav-link fw-semibold" href="{{ url('/products') }}"><i class="fa-solid fa-box-open"></i> Products</a></li>
-        <li class="nav-item"><a class="nav-link fw-semibold" href="{{ url('/categories') }}"><i class="fa-solid fa-list"></i> Categories</a></li>
-        <li class="nav-item"><a class="nav-link fw-semibold" href="{{ url('/offers') }}"><i class="fa-solid fa-tags"></i> Offers</a></li>
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item mx-1">
+          <a class="nav-link fw-semibold text-dark px-3 py-2 rounded hover-bg-light" href="{{ url('/') }}">
+            <i class="fa-solid fa-house"></i> Home
+          </a>
+        </li>
+        <li class="nav-item mx-1">
+          <a class="nav-link fw-semibold text-dark px-3 py-2 rounded hover-bg-light" href="{{ url('/products') }}">
+            <i class="fa-solid fa-box-open"></i> Products
+          </a>
+        </li>
+        <li class="nav-item mx-1">
+          <a class="nav-link fw-semibold text-dark px-3 py-2 rounded hover-bg-light" href="{{ url('/categories') }}">
+            <i class="fa-solid fa-list"></i> Categories
+          </a>
+        </li>
+        <li class="nav-item mx-1">
+          <a class="nav-link fw-semibold text-dark px-3 py-2 rounded hover-bg-light" href="{{ url('/offers') }}">
+            <i class="fa-solid fa-tags"></i> Offers
+          </a>
+        </li>
 
+        {{-- Auth Check --}}
         @auth
             @if(Auth::user()->role === 'admin')
-                {{-- Admin Links --}}
-                <li class="nav-item"><a class="nav-link fw-semibold" href="{{ url('/admin/dashboard') }}"><i class="fa-solid fa-gauge-high"></i> Admin Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link fw-semibold" href="{{ url('/admin/users') }}"><i class="fa-solid fa-users"></i> Manage Users</a></li>
-            @else
-                {{-- Normal User Links --}}
-                <li class="nav-item"><a class="nav-link fw-semibold" href="{{ url('/profile') }}"><i class="fa-solid fa-user"></i> Profile</a></li>
-                <li class="nav-item position-relative">
-                    <a class="nav-link fw-semibold" href="{{ url('/cart') }}">
-                        <i class="fas fa-shopping-cart"></i> Cart
-                        <span class="badge bg-danger position-absolute top-0 start-100 translate-middle p-1 rounded-circle" id="cart-count">0</span>
-                    </a>
+                <li class="nav-item mx-1">
+                  <a class="nav-link fw-semibold text-dark px-3 py-2 rounded hover-bg-light" href="{{ url('/admin/dashboard') }}">
+                    <i class="fa-solid fa-gauge-high"></i> Dashboard
+                  </a>
                 </li>
-                <li class="nav-item position-relative">
-                    <a class="nav-link fw-semibold" href="{{ url('/wishlist') }}">
-                        <i class="fas fa-heart"></i> Wishlist
-                        <span class="badge bg-danger position-absolute top-0 start-100 translate-middle p-1 rounded-circle" id="wishlist-count">0</span>
-                    </a>
+            @else
+                <li class="nav-item mx-1">
+                  <a class="nav-link fw-semibold text-dark px-3 py-2 rounded hover-bg-light" href="{{ url('/profile') }}">
+                    <i class="fa-solid fa-user"></i> Profile
+                  </a>
+                </li>
+                <li class="nav-item position-relative mx-1">
+                  <a class="nav-link fw-semibold text-dark px-3 py-2 rounded hover-bg-light" href="{{ url('/cart') }}">
+                    <i class="fas fa-shopping-cart"></i> Cart
+                    <span class="badge bg-danger text-white position-absolute top-0 start-100 translate-middle p-1 rounded-circle" id="cart-count">0</span>
+                  </a>
                 </li>
             @endif
 
-            {{-- Logout Button --}}
-            <li class="nav-item">
+            {{-- Logout --}}
+            <li class="nav-item mx-1">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="btn btn-link nav-link fw-semibold">
+                    <button type="submit" class="btn btn-dark fw-semibold px-3 py-2 rounded-pill">
                         <i class="fa-solid fa-right-from-bracket"></i> Logout
                     </button>
                 </form>
             </li>
         @else
-            {{-- Guest Links --}}
-            <li class="nav-item"><a class="btn btn-danger ms-2" href="{{ route('login') }}"><i class="fa-solid fa-right-to-bracket"></i> Login</a></li>
+            <li class="nav-item mx-1">
+              <a class="btn btn-dark fw-semibold px-4 rounded-pill" href="{{ route('login') }}">
+                <i class="fa-solid fa-right-to-bracket"></i> Login
+              </a>
+            </li>
         @endauth
       </ul>
     </div>
   </div>
 </nav>
+
+
+<!-- Custom Hover Effect -->
+
+
 
 <!-- Main Content -->
 <div class="container py-5">
@@ -126,4 +160,26 @@
     background: linear-gradient(135deg, #2575fc, #6a11cb);
     transform: scale(1.05);
 }
+
+.hover-bg-light:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    transition: 0.3s;
+}
+
+.navbar-nav .nav-link {
+    transition: all 0.3s ease;
+    color: #4b5563 !important;
+}
+.navbar-nav .nav-link:hover {
+    color: #1f2937 !important;
+    transform: scale(1.05);
+}
+
+.navbar .badge {
+    font-size: 0.6rem;
+    min-width: 18px;
+    min-height: 18px;
+}
+
+
 </style>

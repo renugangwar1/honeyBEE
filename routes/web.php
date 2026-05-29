@@ -22,7 +22,9 @@ use App\Http\Controllers\Admin\OrderController;
 | Public
 |--------------------------------------------------------------------------
 */
-
+Route::get('/test', function () {
+    return 'Laravel is working';
+});
 Route::get('/health', function () {
     return 'OK';
 });

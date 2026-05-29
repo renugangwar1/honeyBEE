@@ -13,26 +13,21 @@ use Illuminate\Support\Facades\Mail;
 class HomeController extends Controller
 {
     // 🔹 Home Page
-    // public function home()
-    // {
-    //     // Fetch dynamic home page content if needed
-    //     $home = Page::where('slug', 'home')->first();
+    public function home()
+    {
+        // Fetch dynamic home page content if needed
+        $home = Page::where('slug', 'home')->first();
 
-    //     // Active banners
-    //     $banners = Banner::where('status', true)->get();
+        // Active banners
+        $banners = Banner::where('status', true)->get();
 
-    //     // Fetch categories and latest products
-    //     $categories = Category::all();
-    //     $products   = Product::latest()->take(8)->get(); 
+        // Fetch categories and latest products
+        $categories = Category::all();
+        $products   = Product::latest()->take(8)->get(); 
 
-    //     return view('public.home', compact('home', 'banners', 'categories', 'products'));
-    // }
-public function home()
-{
-    return [
-        'page_count' => \App\Models\Page::count(),
-    ];
-}
+        return view('public.home', compact('home', 'banners', 'categories', 'products'));
+    }
+
     // 🔹 Dynamic Pages (About, Contact, etc.)
     public function page(string $slug)
     {
